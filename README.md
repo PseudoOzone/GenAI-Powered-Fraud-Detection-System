@@ -423,7 +423,7 @@ MIT License - See LICENSE file for details
 
 ## 👤 Author
 
-Developed by **Anshu**
+Developed by **Anshuman Bakshi | AI/ML Engineer**
 
 ## 📧 Support
 
