@@ -141,11 +141,15 @@ python notebooks/run_pipeline_genai.py
 streamlit run notebooks/app.py
 ```
 **Dashboard Features:**
-- 📊 **Home:** System overview and statistics
-- 📈 **Data Analysis:** Transaction distribution, fraud rate analysis
-- 🧠 **Embeddings:** PCA visualization of DistilBERT embeddings
-- 🤖 **Model Info:** Architecture and parameter details
-- 🔄 **Pipeline Summary:** Execution times and output statistics
+- 📊 **Home:** System overview and quick statistics (total narratives, fraud/legitimate counts)
+- 📈 **Data Analysis:** Interactive visualizations with side-by-side tables
+  - Transaction amount histogram with statistics
+  - Fraud vs legitimate pie chart with distribution
+  - Column statistics and data type distribution
+  - Data quality metrics (missing values, types)
+- 🧠 **Embeddings:** PCA visualization of 768-dimensional DistilBERT embeddings with variance explained
+- 🤖 **Model Info:** DistilBERT and GPT-2 LoRA architecture, hardware specs, training metrics
+- 🔄 **Pipeline Summary:** Step-by-step execution status, durations, and generated outputs
 
 ### Configuration
 
@@ -275,19 +279,49 @@ fraud_score = model.predict(embedding)
 
 ## 🎨 Dashboard Visualization
 
+### Home Page:
+- System overview and architecture summary
+- Quick statistics (Total narratives, Fraud cases, Legitimate cases)
+- GPU status and hardware information
+
 ### Embeddings Page Features:
 - **Interactive PCA Plot:** 2D projection of 768-dimensional embeddings
   - Color-coded by transaction type (FRAUD/LEGITIMATE)
   - Hover for transaction details
-  - Variance explained: PC1 and PC2
-- **Fraud Distribution:** Pie chart of fraud vs. legitimate transactions
-- **Embedding Statistics:** Mean similarity, cluster separation metrics
+  - Variance explained percentages for PC1 and PC2
+- **Embedding Statistics:** Mean, Std Dev, Min, Max values
+- **Embedding Metrics:** Shape information and dimensionality details
 
-### Data Analysis Page:
-- Transaction amount distribution (histogram)
-- Fraud rate by merchant category
-- Temporal fraud patterns (time of day analysis)
-- Geographic fraud heatmap
+### Data Analysis Page (Enhanced with Visualizations):
+- **💰 Transaction Amount Distribution**
+  - Interactive histogram with 30 bins
+  - Side-by-side statistics table (Mean, Median, Std Dev, Min, Max)
+  
+- **⚠️ Fraud vs Legitimate Distribution**
+  - Pie chart showing proportions
+  - Distribution breakdown table with counts and percentages
+  
+- **📊 Column Statistics**
+  - Full summary statistics table
+  - Bar chart showing data type distribution
+  
+- **👀 Data Sample**
+  - First 10 rows displayed in interactive table
+  
+- **🔍 Data Quality**
+  - Missing values analysis by column
+  - Data type summary statistics
+
+### Model Info Page:
+- DistilBERT embedding model architecture details
+- GPT-2 LoRA fine-tuning configuration
+- Hardware configuration (GPU specs, VRAM, PyTorch version)
+- Training performance metrics
+
+### Pipeline Summary Page:
+- Execution status for all 4 pipeline steps
+- Duration and GPU utilization for each step
+- Output files generated with sizes and types
 
 ---
 
