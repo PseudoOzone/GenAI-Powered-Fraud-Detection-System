@@ -100,13 +100,16 @@ def show_home():
                 st.info("Loading statistics...")
 
 def show_data_analysis():
-    """Data analysis page"""
+    """Data analysis page with visualizations"""
     st.header("📈 Data Analysis")
     
     with st.spinner("Loading data..."):
         pipeline_data = load_pipeline_data()
     
     if pipeline_data['combined_data'] is not None:
+        import plotly.express as px
+        import plotly.graph_objects as go
+        
         df = pipeline_data['combined_data'].copy()
         
         # Convert all int64/int32 to standard Python int for PyArrow compatibility
@@ -126,15 +129,137 @@ def show_data_analysis():
         with col3:
             st.metric("Memory Usage", f"{df.memory_usage(deep=True).sum() / 1024**2:.2f} MB")
         
-        st.subheader("Data Sample")
-        st.dataframe(df.head(10), width='stretch')
+        st.divider()
         
-        st.subheader("Column Statistics")
-        stats_df = df.describe().astype(float)
-        st.dataframe(stats_df, width='stretch')
+        # --- TRANSACTION AMOUNT DISTRIBUTION ---
+        st.subheader("💰 Transaction Amount Distribution")
+        col_viz, col_table = st.columns([2, 1])
         
-        st.subheader("Data Types")
-        st.write(df.dtypes)
+        with col_viz:
+            try:
+                # Find numeric columns for amount
+                numeric_cols = df.select_dtypes(include=['int64', 'int32', 'float64', 'float32']).columns.tolist()
+                if numeric_cols:
+                    amount_col = [c for c in numeric_cols if 'amount' in c.lower() or 'value' in c.lower()]
+                    if not amount_col:
+                        amount_col = [numeric_cols[0]]
+                    
+                    fig = px.histogram(df, x=amount_col[0], nbins=30, 
+                                      title="Transaction Amount Histogram",
+                                      labels={amount_col[0]: "Amount ($)"},
+                                      color_discrete_sequence=['#636EFA'])
+                    fig.update_layout(height=400)
+                    st.plotly_chart(fig, use_container_width=True)
+            except Exception as e:
+                st.warning(f"Could not create histogram: {e}")
+        
+        with col_table:
+            st.markdown("**Statistics**")
+            numeric_cols = df.select_dtypes(include=['int64', 'int32', 'float64', 'float32']).columns.tolist()
+            if numeric_cols:
+                amount_col = [c for c in numeric_cols if 'amount' in c.lower() or 'value' in c.lower()]
+                if not amount_col:
+                    amount_col = [numeric_cols[0]]
+                
+                stats_data = {
+                    'Metric': ['Mean', 'Median', 'Std Dev', 'Min', 'Max'],
+                    'Value': [
+                        f"${df[amount_col[0]].mean():.2f}",
+                        f"${df[amount_col[0]].median():.2f}",
+                        f"${df[amount_col[0]].std():.2f}",
+                        f"${df[amount_col[0]].min():.2f}",
+                        f"${df[amount_col[0]].max():.2f}"
+                    ]
+                }
+                st.dataframe(pd.DataFrame(stats_data), hide_index=True, use_container_width=True)
+        
+        st.divider()
+        
+        # --- FRAUD DISTRIBUTION ---
+        st.subheader("⚠️ Fraud vs Legitimate Distribution")
+        col_viz, col_table = st.columns([2, 1])
+        
+        with col_viz:
+            try:
+                type_col = [c for c in df.columns if 'type' in c.lower() or 'class' in c.lower() or 'label' in c.lower()]
+                if type_col:
+                    fraud_counts = df[type_col[0]].value_counts()
+                    fig = px.pie(values=fraud_counts.values, names=fraud_counts.index,
+                               title="Fraud vs Legitimate Transactions",
+                               color_discrete_sequence=['#EF553B', '#00CC96'])
+                    fig.update_layout(height=400)
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    st.info("No fraud/type column found in data")
+            except Exception as e:
+                st.warning(f"Could not create pie chart: {e}")
+        
+        with col_table:
+            st.markdown("**Distribution**")
+            try:
+                type_col = [c for c in df.columns if 'type' in c.lower() or 'class' in c.lower() or 'label' in c.lower()]
+                if type_col:
+                    fraud_counts = df[type_col[0]].value_counts()
+                    dist_data = {
+                        'Type': fraud_counts.index.tolist(),
+                        'Count': fraud_counts.values.tolist(),
+                        'Percentage': [f"{(v/fraud_counts.sum()*100):.1f}%" for v in fraud_counts.values]
+                    }
+                    st.dataframe(pd.DataFrame(dist_data), hide_index=True, use_container_width=True)
+            except Exception as e:
+                pass
+        
+        st.divider()
+        
+        # --- COLUMN STATISTICS ---
+        st.subheader("📊 Column Statistics")
+        col_table, col_viz = st.columns([1, 2])
+        
+        with col_table:
+            st.markdown("**Summary Statistics**")
+            stats_df = df.describe().astype(float).round(4)
+            st.dataframe(stats_df, use_container_width=True)
+        
+        with col_viz:
+            st.markdown("**Data Types Distribution**")
+            try:
+                dtype_counts = df.dtypes.value_counts()
+                fig = px.bar(x=dtype_counts.index.astype(str), y=dtype_counts.values,
+                           labels={'x': 'Data Type', 'y': 'Count'},
+                           color_discrete_sequence=['#636EFA'],
+                           title="Column Data Types")
+                fig.update_layout(height=400, showlegend=False)
+                st.plotly_chart(fig, use_container_width=True)
+            except Exception as e:
+                st.warning(f"Could not create visualization: {e}")
+        
+        st.divider()
+        
+        # --- DATA SAMPLE ---
+        st.subheader("👀 Data Sample (First 10 Rows)")
+        st.dataframe(df.head(10), use_container_width=True)
+        
+        # --- MISSING VALUES ---
+        st.subheader("🔍 Data Quality")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**Missing Values**")
+            missing_data = {
+                'Column': df.columns,
+                'Missing': [df[col].isnull().sum() for col in df.columns],
+                'Percentage': [f"{(df[col].isnull().sum()/len(df)*100):.2f}%" for col in df.columns]
+            }
+            st.dataframe(pd.DataFrame(missing_data), use_container_width=True, hide_index=True)
+        
+        with col2:
+            st.markdown("**Data Type Summary**")
+            dtype_summary = {
+                'Data Type': df.dtypes.astype(str).unique().tolist(),
+                'Count': [sum(df.dtypes.astype(str) == dtype) for dtype in df.dtypes.astype(str).unique()]
+            }
+            st.dataframe(pd.DataFrame(dtype_summary), use_container_width=True, hide_index=True)
+            
     else:
         st.warning("⚠️ No data available - pipeline may not have completed")
 
