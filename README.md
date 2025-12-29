@@ -526,7 +526,7 @@ If you use this research in academic work, please cite:
 ```bibtex
 @software{anshu2025fraud,
   title={Transformer-Based Fraud Detection via Narrative Embeddings and Efficient Fine-Tuning},
-  author={Anshu},
+  author={Anshuman Bakshi},
   year={2025},
   month={December},
   url={https://github.com/PseudoOzone/GenAI-Powered-Fraud-Detection-System},
@@ -535,7 +535,7 @@ If you use this research in academic work, please cite:
 ```
 
 **APA:**
-Anshu. (2025). Transformer-based fraud detection via narrative embeddings and efficient fine-tuning (1.0) [Software]. GitHub. https://github.com/PseudoOzone/GenAI-Powered-Fraud-Detection-System
+Anshuman Bakshi | AI/ML Engineer. (2025). Transformer-based fraud detection via narrative embeddings and efficient fine-tuning (1.0) [Software]. GitHub. https://github.com/PseudoOzone/GenAI-Powered-Fraud-Detection-System
 
 ---
 
@@ -552,8 +552,8 @@ Special thanks to the Hugging Face community for pre-trained models and PEFT imp
 
 ## 11. Contact & Support
 
-**Author:** Anshu  
-**Email:** anshu@example.com  
+**Author:** Anshuman bakshi | AI/ML Engineer
+**Email:** bakshianshuman117@gmail.com 
 **GitHub Issues:** [Report bugs](https://github.com/PseudoOzone/GenAI-Powered-Fraud-Detection-System/issues)  
 **Discussions:** [Research discussions](https://github.com/PseudoOzone/GenAI-Powered-Fraud-Detection-System/discussions)
 
