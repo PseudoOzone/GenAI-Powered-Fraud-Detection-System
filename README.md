@@ -429,7 +429,7 @@ Developed by **Anshuman Bakshi | AI/ML Engineer**
 
 For issues and questions:
 - Create GitHub issue: [Issues](https://github.com/PseudoOzone/GenAI-Powered-Fraud-Detection-System/issues)
-- Email: anshu@example.com
+- Email: bakshianshuman117@gmail.com
 
 ---
 
