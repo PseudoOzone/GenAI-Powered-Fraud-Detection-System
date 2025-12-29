@@ -1,6 +1,22 @@
 # Transformer-Based Fraud Detection via Narrative Embeddings and Efficient Fine-Tuning
 
-**Authors:** Anshu | **Date:** December 2025 | **Status:** Research Implementation
+**Authors:** Anshuman Bakshi | **Date:** December 2025 | **Status:** Research Implementation
+
+---
+
+## 📚 Academic Context
+
+**Program:** Applied Machine Learning with Generative AI  
+**Institution:** National University of Singapore (NUS)  
+**Certification:** Capstone Project for Program Completion  
+**Submission Date:** December 2025
+
+This project serves as the capstone deliverable for the "Applied Machine Learning with Generative AI" program at NUS. The student will receive formal certification upon successful completion of this research project, demonstrating proficiency in:
+- Transformer-based architectures and fine-tuning techniques
+- Parameter-efficient deep learning methods (LoRA)
+- End-to-end machine learning pipeline development
+- GPU-accelerated neural network training
+- Production-ready system implementation and deployment
 
 ---
 
@@ -978,13 +994,13 @@ MIT License - See LICENSE file for details
 
 ## 👤 Author
 
-Developed by **Anshu**
+Developed by **Anshuman Bakshi | AI/ML Engineer**
 
 ## 📧 Support
 
 For issues and questions:
 - Create GitHub issue: [Issues](https://github.com/PseudoOzone/GenAI-Powered-Fraud-Detection-System/issues)
-- Email: anshu@example.com
+- Email: bakshianshuman117@gmail.com
 
 ---
 
@@ -1190,6 +1206,29 @@ python run_pipeline_genai.py
 - **PEFT (LoRA):** https://github.com/huggingface/peft
 - **PyTorch:** https://pytorch.org/
 - **Streamlit:** https://streamlit.io/
+
+---
+
+## Acknowledgments
+
+This research project was completed as part of the **Applied Machine Learning with Generative AI** program offered by the National University of Singapore (NUS). 
+
+**Program Details:**
+- **Institution:** National University of Singapore (NUS)
+- **Program:** Applied Machine Learning with Generative AI
+- **Capstone Project:** Transformer-Based Fraud Detection System
+- **Certification:** Upon successful project completion
+
+**Technologies & Resources:**
+We acknowledge the open-source communities behind:
+- HuggingFace Transformers and PEFT libraries
+- PyTorch and CUDA frameworks
+- Streamlit for rapid prototyping
+- The open-source fraud detection datasets
+
+This project demonstrates the practical application of advanced machine learning techniques learned throughout the NUS program, combining state-of-the-art transformer models with efficient deployment on consumer-grade GPU hardware.
+
+---
 
 ## License
 
